@@ -93,10 +93,11 @@ TimeSpan operator-(TimeSpan lhs, TimeSpan const &rhs)
 
     int different_seconds = total_seconds_lhs - total_seconds_rhs;
 
-    result.hours_ = different_seconds / 3600;
-    result.minutes_ = (different_seconds % 3600) / 60;
+    
+    
     result.seconds_ = different_seconds % 60;
-
+    result.minutes_ = (different_seconds % 60) / 60;
+    result.hours_ = different_seconds / 3600;
     return result;
 }
 TimeSpan TimeSpan::operator+=(TimeSpan const &rhs)
