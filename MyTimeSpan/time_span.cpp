@@ -9,49 +9,24 @@ TimeSpan::TimeSpan()
     this->DefaultTime();
 }
 
-TimeSpan::TimeSpan(int seconds)
-{
-    this->SetTime(0, 0, seconds);
+TimeSpan::TimeSpan(double seconds) {
+    SetTime(seconds);
 }
 
-TimeSpan::TimeSpan(int minutes, int seconds)
-{
-    this->SetTime(0, minutes, seconds);
+TimeSpan::TimeSpan(double hours, double minutes, double seconds) {
+    SetTime(hours, minutes, seconds);
 }
 
-TimeSpan::TimeSpan(int hours, int minutes, int seconds)
-{
-    this->SetTime(hours, minutes, seconds);
+TimeSpan::TimeSpan(int hours, int minutes, int seconds) {
+    SetTime(hours, minutes, seconds);
 }
 
-TimeSpan::TimeSpan(float seconds)
-{
-    this->SetTime(0, 0, round(seconds));
+TimeSpan::TimeSpan(double minutes, double seconds) {
+    SetTime(0.0, minutes, seconds);
 }
 
-TimeSpan::TimeSpan(float minutes, float seconds)
-{
-    this->SetTime(0, round(minutes), round(seconds));
-}
-
-TimeSpan::TimeSpan(float hours, float minutes, float seconds)
-{
-    this->SetTime(round(hours), round(minutes), round(seconds));
-}
-
-TimeSpan::TimeSpan(double seconds)
-{
-    this->SetTime(0, 0, round(seconds));
-}
-
-TimeSpan::TimeSpan(double minutes, double seconds)
-{
-    this->SetTime(0, round(minutes), round(seconds));
-}
-
-TimeSpan::TimeSpan(double hours, double minutes, double seconds)
-{
-    this->SetTime(round(hours), round(minutes), round(seconds));
+TimeSpan::TimeSpan(int minutes, int seconds) {
+    SetTime(0, minutes, seconds);
 }
 
 int TimeSpan::seconds() const
@@ -76,10 +51,16 @@ void TimeSpan::DefaultTime()
     this->seconds_ = 0;
 }
 
-void TimeSpan::SetTime(int hours, int minutes, int seconds)
-{
-    // "hours * 3600 + minutes * 60 + seconds *1" is the associated time object that gets passed in
-    this->StandardizeTime((hours * 3600) + (minutes * 60) + (seconds * 1));
+void TimeSpan::SetTime(double seconds) {
+    StandardizeTime(static_cast<int>(round(seconds)));
+}
+
+void TimeSpan::SetTime(double hours, double minutes, double seconds) {
+    StandardizeTime(static_cast<int>(round(hours * 3600 + minutes * 60 + seconds)));
+}
+
+void TimeSpan::SetTime(int hours, int minutes, int seconds) {
+    StandardizeTime(hours * 3600 + minutes * 60 + seconds);
 }
 
 void TimeSpan::StandardizeTime(int seconds)

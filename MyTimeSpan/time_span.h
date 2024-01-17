@@ -10,19 +10,17 @@ private:
     int seconds_;
 public:
     TimeSpan();
-    TimeSpan(int seconds);
-    TimeSpan(int minutes, int seconds);
-    TimeSpan(int hours, int minutes, int seconds);
-    TimeSpan(float seconds);
-    TimeSpan(float minutes, float seconds);
-    TimeSpan(float hours, float minutes, float seconds);
     TimeSpan(double seconds);
-    TimeSpan(double minutes, double seconds);
     TimeSpan(double hours, double minutes, double seconds);
+    TimeSpan(int hours, int minutes, int seconds);
+    TimeSpan(double minutes, double seconds);
+    TimeSpan(int minutes, int seconds);
     int seconds() const;
     int minutes() const;
     int hours() const;
     void DefaultTime();
+    void SetTime(double seconds);
+    void SetTime(double hours, double minutes, double seconds);
     void SetTime(int hours, int minutes, int seconds);
     void StandardizeTime(int seconds);
     // Overriding << and >> 
