@@ -45,7 +45,7 @@ void TimeSpan::SetTime(double hours, double minutes, double seconds) {
     int rounded_hours = round(hours);
     int rounded_minutes = round(minutes);
     int rounded_seconds = round(seconds);
-    StandardizeTime(rounded_hours * 3600 + rounded_minutes * 60 + rounded_seconds);
+    StandardizeTime(rounded_hours * 3600.0 + rounded_minutes * 60.0 + rounded_seconds * 1.0);
 }
 
 void TimeSpan::StandardizeTime(int seconds)

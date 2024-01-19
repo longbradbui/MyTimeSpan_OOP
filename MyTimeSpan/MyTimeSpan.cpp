@@ -148,15 +148,21 @@ bool TestGreaterThanOrEqual() {
 }
 bool TestOutputFormat1() {
     ostringstream out;
-    TimeSpan ts1(12.9, 30, 29.6);
-    out << ts1;
+    TimeSpan ts(12.9, 30, 29.6);
+    out << ts;
     return out.str() == string("Hours: 13, Minutes: 30, Seconds: 30");
 }
 bool TestOutputFormat2() {
     ostringstream out;
-    TimeSpan ts1(1.5, 4, -10);
-    out << ts1;
-    return out.str() == string("Hours: 1, Minutes: 35, Seconds: 50");
+    TimeSpan ts(1.5, 4, -10);
+    out << ts;
+    return out.str() == string("Hours: 1, Minutes: 33, Seconds: 50");
+}
+bool TestOutputFormat3() {
+    ostringstream out;
+    TimeSpan ts(3, -90, 120);
+    out << ts;
+    return out.str() == string("Hours: 1, Minutes: 32, Seconds: 0");
 }
 int main()
 {
@@ -180,6 +186,7 @@ int main()
     RUNTEST(TestUnarySubtraction);
     RUNTEST(TestOutputFormat1);
     RUNTEST(TestOutputFormat2);
+    RUNTEST(TestOutputFormat3);
     if (successfulTests < totalTests) printf(FAIL_COLOR);
     printf("%d/%d tests succeeded\n\n", successfulTests, totalTests);
     printf(CLEAR_COLOR); 
@@ -299,6 +306,12 @@ int main()
     }
     else {
         cout << "Failed: Test with TimeSpan correct format #2" << endl;
+    }
+    if (TestOutputFormat3()) {
+        cout << "Passed: Test with TimeSpan correct format #3" << endl;
+    }
+    else {
+        cout << "Failed: Test with TimeSpan correct format #3" << endl;
     }
     cout << "\nTesting Formating" << endl;
     TimeSpan defaultTime;
