@@ -42,8 +42,8 @@ void TimeSpan::DefaultTime()
 }
 
 void TimeSpan::SetTime(double hours, double minutes, double seconds) {
-    double totalsec = hours * 3600 + minutes * 60 + seconds;
-    StandardizeTime(round(totalsec));
+    double total_seconds = hours * 3600 + minutes * 60 + seconds;
+    StandardizeTime(round(total_seconds));
 }
 
 void TimeSpan::StandardizeTime(int seconds)
