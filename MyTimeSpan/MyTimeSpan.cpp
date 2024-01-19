@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <sstream>
 #include "time_span.h"
 using namespace std;
 
@@ -63,9 +65,9 @@ bool TestAdd()
 }
 bool TestSubtract()
 {
-    TimeSpan ts1(8, 12, 59), ts2(1, 4, 3);
+    TimeSpan ts1(8.3, 12.6, 57.5), ts2(1, 4, 3);
     TimeSpan sub_it_all = ts1 - ts2;
-    return CheckValues(sub_it_all, 7, 8, 56);
+    return CheckValues(sub_it_all, 7, 9, 55);
 }
 bool TestAddInPlace()
 {
@@ -96,6 +98,18 @@ bool TestSubtractionInPlace()
         return false;
     }
     return true;
+}
+bool TestUnaryAddition() {
+    TimeSpan ts1(10.6, 6.9, 3);
+    TimeSpan ts2(-10, -19, -30);
+    TimeSpan ts3 = -ts2;
+    return CheckValues(ts1 + ts3, 21, 26, 33);
+}
+bool TestUnarySubtraction() {
+    TimeSpan ts1(2, 30, 15);
+    TimeSpan ts2(5, 45, 30);
+    TimeSpan ts3 = -ts2;
+    return CheckValues(ts1 - ts3, 7, 75, 45);
 }
 bool TestLessThan() {
     TimeSpan ts1(10, 12, 30);
@@ -132,6 +146,18 @@ bool TestGreaterThanOrEqual() {
     TimeSpan ts2(12, 8, 0);
     return ts1 > ts2 || ts1 == ts2;
 }
+bool TestOutputFormat1() {
+    ostringstream out;
+    TimeSpan ts1(12.9, 30, 29.6);
+    out << ts1;
+    return out.str() == string("Hours: 13, Minutes: 30, Seconds: 30");
+}
+bool TestOutputFormat2() {
+    ostringstream out;
+    TimeSpan ts1(1.5, 4, -10);
+    out << ts1;
+    return out.str() == string("Hours: 1, Minutes: 35, Seconds: 50");
+}
 int main()
 {
     /* RUN TEST */
@@ -150,10 +176,14 @@ int main()
     RUNTEST(TestUnequal);
     RUNTEST(TestLessThanOrEqual);
     RUNTEST(TestGreaterThanOrEqual);
+    RUNTEST(TestUnaryAddition);
+    RUNTEST(TestUnarySubtraction);
+    RUNTEST(TestOutputFormat1);
+    RUNTEST(TestOutputFormat2);
     if (successfulTests < totalTests) printf(FAIL_COLOR);
     printf("%d/%d tests succeeded\n\n", successfulTests, totalTests);
     printf(CLEAR_COLOR); 
-    /************************************************************/
+    /*******************************************************************/
     /* Professor's Test Cases */
     cout << "Testing Arithmetic Operations" << endl;
     if (TestZeros()) {
@@ -210,6 +240,18 @@ int main()
     else {
         cout << "Failed: Test with subtraction assignment time span" << endl;
     }
+    if (TestUnaryAddition()) {
+        cout << "Passed: Test with adding \"flipped\" time span" << endl;
+    }
+    else {
+        cout << "Failed: Test with adding \"flipped\" time span" << endl;
+    }
+    if (TestUnarySubtraction()) {
+        cout << "Passed: Test with subtracting \"flipped\" time span" << endl;
+    }
+    else {
+        cout << "Failed: Test with subtracting \"flipped\" time span" << endl;
+    }
     if (TestLessThan()) {
         cout << "Passed: Test with less than operator" << endl;
     }
@@ -246,6 +288,18 @@ int main()
     else {
         cout << "Failed: Test with greater than or equal operator" << endl;
     }
+    if (TestOutputFormat1()) {
+        cout << "Passed: Test with TimeSpan correct format #1" << endl;
+    }
+    else {
+        cout << "Failed: Test with TimeSpan correct format #1" << endl;
+    }
+    if (TestOutputFormat2()) {
+        cout << "Passed: Test with TimeSpan correct format #2" << endl;
+    }
+    else {
+        cout << "Failed: Test with TimeSpan correct format #2" << endl;
+    }
     cout << "\nTesting Formating" << endl;
     TimeSpan defaultTime;
     cout << defaultTime << std::endl;
@@ -271,8 +325,8 @@ int main()
     cout << fromMinutesSeconds3 << endl;
     TimeSpan fromFloats1(1.5, 30.75, 45.3);
     cout << fromFloats1 << endl;
-    TimeSpan fromDoubles1(1.5, 4.0, -10.0); 
-    cout << fromDoubles1 << endl;
+    TimeSpan fromDoubles1(1.5, 4, -10); 
+    cout << fromDoubles1 << "here" << endl;
     TimeSpan a1(1, 4, 3);
     TimeSpan a2(8, 12, 59);
     TimeSpan a3 = a1 + a2;
@@ -304,9 +358,17 @@ int main()
     TimeSpan a16(10, 11, -50);
     cout << ((a15 == a16) ? "The two timespans are equal" : "The two timespans are not equal") << endl;
     cout << ((a15 != a16) ? "The two timespans are not equal" : "The two timespans are equal") << endl;
-    cout << "Please input the desired time span: ";
-    TimeSpan ts;
-    cin >> ts;
-    cout << ts;
+    cout << "Please input the desired time span #1: ";
+    TimeSpan ts1;
+    cin >> ts1;
+    cout << ts1 << endl;
+    cout << "Please input the desired time span #2: ";
+    TimeSpan ts2;
+    cin >> ts2;
+    cout << ts2 << endl;
+    cout << "Please input the desired time span #3: ";
+    TimeSpan ts3;
+    cin >> ts3;
+    cout << ts3 << endl;
     return 0;
 }

@@ -10,24 +10,17 @@ TimeSpan::TimeSpan()
 }
 
 TimeSpan::TimeSpan(double seconds) {
-    SetTime(seconds);
-}
-
-TimeSpan::TimeSpan(double hours, double minutes, double seconds) {
-    SetTime(hours, minutes, seconds);
-}
-
-TimeSpan::TimeSpan(int hours, int minutes, int seconds) {
-    SetTime(hours, minutes, seconds);
+    SetTime(0.0, 0.0, seconds);
 }
 
 TimeSpan::TimeSpan(double minutes, double seconds) {
     SetTime(0.0, minutes, seconds);
 }
 
-TimeSpan::TimeSpan(int minutes, int seconds) {
-    SetTime(0, minutes, seconds);
+TimeSpan::TimeSpan(double hours, double minutes, double seconds) {
+    SetTime(hours, minutes, seconds);
 }
+
 
 int TimeSpan::seconds() const
 {
@@ -46,21 +39,14 @@ int TimeSpan::hours() const
 
 void TimeSpan::DefaultTime()
 {
-    this->hours_ = 0;
-    this->minutes_ = 0;
-    this->seconds_ = 0;
-}
-
-void TimeSpan::SetTime(double seconds) {
-    StandardizeTime(static_cast<int>(round(seconds)));
+    SetTime(0.0, 0.0, 0.0);
 }
 
 void TimeSpan::SetTime(double hours, double minutes, double seconds) {
-    StandardizeTime(static_cast<int>(round(hours * 3600 + minutes * 60 + seconds)));
-}
-
-void TimeSpan::SetTime(int hours, int minutes, int seconds) {
-    StandardizeTime(hours * 3600 + minutes * 60 + seconds);
+    int rounded_hours = round(hours);
+    int rounded_minutes = round(minutes);
+    int rounded_seconds = round(seconds);
+    StandardizeTime(rounded_hours * 3600 + rounded_minutes * 60 + rounded_seconds);
 }
 
 void TimeSpan::StandardizeTime(int seconds)
@@ -70,36 +56,34 @@ void TimeSpan::StandardizeTime(int seconds)
     this->hours_ = seconds / 3600;
 }
 
-TimeSpan operator+(TimeSpan lhs, TimeSpan const &rhs)
+TimeSpan TimeSpan::operator+(const TimeSpan &rhs) const
 {
-    TimeSpan result;
- 
-    result.seconds_ = lhs.seconds_ + rhs.seconds_;
-
-    result.minutes_ = lhs.minutes_ + rhs.minutes_ + result.seconds_ / 60;
+    TimeSpan result = *this;
+    result.seconds_ += rhs.seconds_;
+    result.minutes_ += + rhs.minutes_ + result.seconds_ / 60;
     result.seconds_ %= 60;
-
-    result.hours_ = lhs.hours_ + rhs.hours_ + result.minutes_ / 60;
+    result.hours_ += rhs.hours_ + result.minutes_ / 60;
     result.minutes_ %= 60;
- 
     return result;
 }
 
-TimeSpan operator-(TimeSpan lhs, TimeSpan const &rhs)
-{
-    TimeSpan result;
-    int total_seconds_lhs = lhs.hours() * 3600 + lhs.minutes() * 60 + lhs.seconds();
-    int total_seconds_rhs = rhs.hours() * 3600 + rhs.minutes() * 60 + rhs.seconds();
-
-    int different_seconds = total_seconds_lhs - total_seconds_rhs;
-
-    
-    
-    result.seconds_ = different_seconds % 60;
-    result.minutes_ = (different_seconds % 60) / 60;
-    result.hours_ = different_seconds / 3600;
+TimeSpan TimeSpan::operator-(const TimeSpan& rhs) const {
+    TimeSpan result = *this;
+    result.seconds_ -= rhs.seconds_;
+    result.minutes_ -= rhs.minutes_;
+    result.hours_ -= rhs.hours_;
+    // Adjust for borrowing
+    while (result.seconds_ < 0) {
+        result.seconds_ += 60;
+        result.minutes_--;
+    }
+    while (result.minutes_ < 0) {
+        result.minutes_ += 60;
+        result.hours_--;
+    }
     return result;
 }
+
 TimeSpan TimeSpan::operator+=(TimeSpan const &rhs)
 {
     int total_seconds_lhs = this -> hours() * 3600 + this -> minutes() * 60 + this -> seconds();
@@ -110,7 +94,7 @@ TimeSpan TimeSpan::operator+=(TimeSpan const &rhs)
 
 TimeSpan TimeSpan::operator-=(TimeSpan const &rhs)
 {
-    int total_seconds_lhs = this->hours() * 3600 + this->minutes() * 60 + this->seconds();
+    int total_seconds_lhs = hours() * 3600 + minutes() * 60 + seconds();
     int total_seconds_rhs = rhs.hours() * 3600 + rhs.minutes() * 60 + rhs.seconds();
     *this = TimeSpan(total_seconds_lhs - total_seconds_rhs);
     return *this;
@@ -118,7 +102,7 @@ TimeSpan TimeSpan::operator-=(TimeSpan const &rhs)
 
 TimeSpan operator-(TimeSpan const &ts)
 {
-    return TimeSpan(-ts.hours(), -ts.minutes(), -ts.seconds());
+    return TimeSpan(-ts.hours_, -ts.minutes_, -ts.seconds_);
 }
 
 bool operator<(TimeSpan const &lhs, TimeSpan const &rhs)
