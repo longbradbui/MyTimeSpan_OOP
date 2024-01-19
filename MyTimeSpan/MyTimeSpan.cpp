@@ -326,7 +326,7 @@ int main()
     TimeSpan fromFloats1(1.5, 30.75, 45.3);
     cout << fromFloats1 << endl;
     TimeSpan fromDoubles1(1.5, 4, -10); 
-    cout << fromDoubles1 << "here" << endl;
+    cout << fromDoubles1 << "*here*" << endl;
     TimeSpan a1(1, 4, 3);
     TimeSpan a2(8, 12, 59);
     TimeSpan a3 = a1 + a2;

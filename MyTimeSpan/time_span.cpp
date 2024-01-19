@@ -21,7 +21,6 @@ TimeSpan::TimeSpan(double hours, double minutes, double seconds) {
     SetTime(hours, minutes, seconds);
 }
 
-
 int TimeSpan::seconds() const
 {
     return this->seconds_;

@@ -2,6 +2,7 @@
 #define TIME_SPAN_H
 #include <iostream>
 using namespace std;
+
 class TimeSpan
 {
 public:
