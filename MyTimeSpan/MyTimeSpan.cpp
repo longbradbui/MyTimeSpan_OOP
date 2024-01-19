@@ -67,7 +67,7 @@ bool TestSubtract()
 {
     TimeSpan ts1(8.3, 12.6, 57.5), ts2(1, 4, 3);
     TimeSpan sub_it_all = ts1 - ts2;
-    return CheckValues(sub_it_all, 7, 9, 55);
+    return CheckValues(sub_it_all, 7, 27, 31);
 }
 bool TestAddInPlace()
 {
@@ -103,7 +103,7 @@ bool TestUnaryAddition() {
     TimeSpan ts1(10.6, 6.9, 3);
     TimeSpan ts2(-10, -19, -30);
     TimeSpan ts3 = -ts2;
-    return CheckValues(ts1 + ts3, 21, 26, 33);
+    return CheckValues((ts1 + ts3), 21, 2, 27);
 }
 bool TestUnarySubtraction() {
     TimeSpan ts1(2, 30, 15);
@@ -150,7 +150,7 @@ bool TestOutputFormat1() {
     ostringstream out;
     TimeSpan ts(12.9, 30, 29.6);
     out << ts;
-    return out.str() == string("Hours: 13, Minutes: 30, Seconds: 30");
+    return out.str() == string("Hours: 13, Minutes: 24, Seconds: 30");
 }
 bool TestOutputFormat2() {
     ostringstream out;
@@ -189,7 +189,7 @@ int main()
     RUNTEST(TestOutputFormat3);
     if (successfulTests < totalTests) printf(FAIL_COLOR);
     printf("%d/%d tests succeeded\n\n", successfulTests, totalTests);
-    printf(CLEAR_COLOR); 
+    printf(CLEAR_COLOR);
     /*******************************************************************/
     /* Professor's Test Cases */
     cout << "Testing Arithmetic Operations" << endl;
@@ -316,19 +316,19 @@ int main()
     cout << "\nTesting Formating" << endl;
     TimeSpan defaultTime;
     cout << defaultTime << std::endl;
-    TimeSpan fromSeconds1(3665); 
+    TimeSpan fromSeconds1(3665);
     cout << fromSeconds1 << endl;
-    TimeSpan fromSeconds2(-190); 
+    TimeSpan fromSeconds2(-190);
     cout << fromSeconds2 << endl;
-    TimeSpan fromSeconds3(380.5); 
+    TimeSpan fromSeconds3(380.5);
     cout << fromSeconds3 << endl;
     TimeSpan fromSeconds4(127.86);
     cout << fromSeconds4 << endl;
-    TimeSpan fromHoursMinutesSecond1(3, -90, 120); 
+    TimeSpan fromHoursMinutesSecond1(3, -90, 120);
     cout << fromHoursMinutesSecond1 << endl;
-    TimeSpan fromHoursMinutesSecond2(8, -23, 0); 
+    TimeSpan fromHoursMinutesSecond2(8, -23, 0);
     cout << fromHoursMinutesSecond2 << endl;
-    TimeSpan fromHoursMinutesSecond3(-3, 73, 2); 
+    TimeSpan fromHoursMinutesSecond3(-3, 73, 2);
     cout << fromHoursMinutesSecond3 << endl;
     TimeSpan fromMinutesSeconds1(7, -3);
     cout << fromMinutesSeconds1 << endl;
@@ -338,7 +338,7 @@ int main()
     cout << fromMinutesSeconds3 << endl;
     TimeSpan fromFloats1(1.5, 30.75, 45.3);
     cout << fromFloats1 << endl;
-    TimeSpan fromDoubles1(1.5, 4, -10); 
+    TimeSpan fromDoubles1(1.5, 4, -10);
     cout << fromDoubles1 << "*here*" << endl;
     TimeSpan a1(1, 4, 3);
     TimeSpan a2(8, 12, 59);
@@ -365,8 +365,8 @@ int main()
     cout << a13 << endl;
     TimeSpan original(2.0, 3.0, 4.5);
     TimeSpan negated = -original;
-    cout <<  original << endl;
-    cout <<  negated << endl;
+    cout << original << endl;
+    cout << negated << endl;
     TimeSpan a15(10, 10, 10);
     TimeSpan a16(10, 11, -50);
     cout << ((a15 == a16) ? "The two timespans are equal" : "The two timespans are not equal") << endl;
